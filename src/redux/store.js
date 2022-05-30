@@ -1,11 +1,18 @@
-import { applyMiddleware } from 'redux'
+import { applyMiddleware, createStore, compose } from 'redux'
 import thunkMiddleware from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import spotifyReducer from './reducers'
-import { configureStore } from '@reduxjs/toolkit'
 
-const composedEnhancer = composeWithDevTools(applyMiddleware(thunkMiddleware))
+const middlewareEnchancer = applyMiddleware(thunkMiddleware)
 
-const store = configureStore({ reducer: spotifyReducer }, composedEnhancer)
+const composeEnhancers =
+  process.env.NODE_ENV === 'development' &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+    }) : compose;
+
+const enhancer = composeEnhancers(middlewareEnchancer)
+
+const store = createStore(spotifyReducer, enhancer)
 
 export default store

@@ -1,20 +1,26 @@
-import { GET_ACCESS_TOKEN, GET_CATEGORIES, GET_FEATURED_PLAYLIST, GET_NEW_RELEASES } from "./types"
+import { GET_ACCESS_TOKEN, GET_CATEGORIES, GET_FEATURED_PLAYLIST, GET_NEW_RELEASES, IS_LOADING, ON_ERROR } from "./types"
 
 const initialState = {
   accessToken: '',
-  newReleases: []
+  newReleases: [],
+  errors: '',
+  isLoading: false,
 }
 
-function spotifyReducer(state = initialState, action) {
-  switch (action.type) {
+function spotifyReducer(state = initialState, { type, payload }) {
+  switch (type) {
     case GET_ACCESS_TOKEN:
-      return { ...state, accessToken: action.payload }
+      return { ...state, accessToken: payload }
     case GET_NEW_RELEASES:
-      return { ...state, newReleases: action.payload.albums.items }
+      return { ...state, newReleases: payload.albums.items }
     case GET_FEATURED_PLAYLIST:
-      return { ...state, featuredPlaylist: action.payload }
+      return { ...state, featuredPlaylist: payload }
     case GET_CATEGORIES:
-      return { ...state, categories: action.payload }
+      return { ...state, categories: payload }
+    case ON_ERROR:
+      return { ...state, errors: payload }
+    case IS_LOADING:
+      return { ...state, isLoading: payload }
 
     default:
       return state

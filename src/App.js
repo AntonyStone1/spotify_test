@@ -1,25 +1,24 @@
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { ErrorBoundary } from 'react-error-boundary';
-import { ErrorFallback } from './components/ErrorFallback';
+import { ErrorFallback } from './errorBoundary/ErrorFallback';
 
-import Releases from './components/Releases';
 import { getAccessToken } from './redux/asyncActions';
 import './App.css';
+import ReleasesList from './components/ReleasesList/ReleasesList';
 
 
 
 function App() {
   const dispatch = useDispatch()
-  const { accessToken } = useSelector((state) => state)
 
   useEffect(() => {
     dispatch(getAccessToken())
   }, [])
-  console.log(accessToken);
+
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Releases />
+      <ReleasesList />
     </ErrorBoundary>
 
   );

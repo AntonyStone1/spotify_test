@@ -1,7 +1,8 @@
 import { Buffer } from 'buffer'
-import { getAccessTokenAction } from "./actions";
+import { getAccessTokenAction, isLoading, onError } from "./actions";
 
 export const getAccessToken = () => (dispatch) => {
+  dispatch(isLoading(true))
   var client_id = process.env.REACT_APP_SPOTIFY_CLIENT_ID;
   var client_secret = process.env.REACT_APP_SPOTIFY_CLIENT_SECRET;
 
@@ -17,10 +18,13 @@ export const getAccessToken = () => (dispatch) => {
   })
     .then(res => res.json())
     .then(res => dispatch(getAccessTokenAction(res.access_token)))
+    .catch((error) => dispatch(onError(error.message)))
+  dispatch(isLoading(false))
 }
 
 
 export const getData = (token, endpoint, action) => (dispatch) => {
+  dispatch(isLoading(true))
   fetch(`https://api.spotify.com/v1/browse/${endpoint}`, {
     method: 'GET',
     headers: {
@@ -31,4 +35,6 @@ export const getData = (token, endpoint, action) => (dispatch) => {
   })
     .then(res => res.json())
     .then(res => dispatch(action(res)))
+    .catch((error) => dispatch(onError(error.message)))
+  dispatch(isLoading(false))
 }
