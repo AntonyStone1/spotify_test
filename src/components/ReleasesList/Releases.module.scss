@@ -12,12 +12,13 @@
     height: 40px;
     margin-bottom: 50px;
     color: white;
-    background-color: #000637;
-    border: 2px solid #000637;
+    background-color: #515151;
+    border: none;
+    border-radius: 20px;
     cursor: pointer;
 
     &:hover {
-      background-color: #000c69;
+      background-color: #5c5c5c;
     }
   }
 

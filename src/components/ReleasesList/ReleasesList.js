@@ -13,7 +13,7 @@ const ReleasesList = () => {
   const getDataHanlder = () => {
     dispatch(getData(accessToken, NEW_RELEASES, getNewReleasesAction))
   }
-  console.log(isLoading);
+
   return (
     <div className={styles.container}>
       <button onClick={getDataHanlder} className={styles.btn}>Get new releases</button>
@@ -21,7 +21,7 @@ const ReleasesList = () => {
         ? <div className={styles.container_list}>{newReleases.map(release =>
           <Card card={release} key={release.id} />)} </div>
         :
-        isLoading ? <div className={styles.lds_dual_ring}></div> : 'No items'
+        isLoading ? <div className={styles.lds_dual_ring}></div> : <h3>No items</h3>
       }
     </div>
   )
